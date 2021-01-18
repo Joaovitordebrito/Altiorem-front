@@ -22,59 +22,33 @@
 </template>
 
 <script>
-import generic from '../assets/gen.png'
+import axios from 'axios'
+// import generic from '../assets/gen.png'
 
 export default {
   name: 'ListCourses',
   data () {
     return {
       mock_courses: [
-        {
-          title: 'Desenvolvimento de sites',
-          description: 'Aprenda a desenvolver sites simples para ingressar em uma empresa ou até mesmo realizar trabalhos como freelancer',
-          image: generic,
-          teacher: 'João Pedro',
-          source: 'Scale Ads',
-          workload: '12h',
-          modules: [
-            'Como iniciar o curso',
-            'Softwares Recomendados / Criar a primeira página HTML / Criando cabeçalho',
-            'Fundamentos CSS / Page Layouts / Listas'
-          ]
-        },
-        {
-          title: 'UI/UX básico',
-          description: 'Aprenda a desenvolver interfaces para aplicativos e sites baseando-se nos principios de UI/UX profissionais',
-          image: generic,
-          teacher: 'João Pedro',
-          source: 'Scale Ads',
-          workload: '12h',
-          modules: [
-            'Como iniciar o curso',
-            'Softwares Recomendados / Criar a primeira página HTML / Criando cabeçalho',
-            'Fundamentos CSS / Page Layouts / Listas'
-          ]
-        },
-        {
-          title: 'Desenvolvimento de sites',
-          description: 'Aprenda a desenvolver sites simples para ingressar em uma empresa ou até mesmo realizar trabalhos como freelancer',
-          image: generic,
-          teacher: 'Guilherme Cally',
-          source: 'Cally S/A',
-          workload: '12h',
-          modules: [
-            'Como iniciar o curso',
-            'Softwares Recomendados / Criar a primeira página HTML / Criando cabeçalho',
-            'Fundamentos CSS / Page Layouts / Listas'
-          ]
-        },
       ]
     }
   },
   methods: {
     select_course (item) {
       this.$emit('selected-course', item)
+    },
+    fetch_courses () {
+      axios.post('http://localhost:3001/altiorem.api/list_course')
+        .then(r => {
+          this.mock_courses = r.data.desc
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
+  },
+  beforeMount () {
+    this.fetch_courses()
   }
 }
 </script>
